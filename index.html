@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr.CHEMIS - Educational Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        /* Custom Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8); }
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scale-in {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient-shift 8s ease infinite;
+        }
+        .animate-slide-up { animation: slide-up 0.6s ease-out forwards; }
+        .animate-scale-in { animation: scale-in 0.4s ease-out forwards; }
+        .animate-rotate-slow { animation: rotate-slow 20s linear infinite; }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 4px;
+        }
+        
+        /* Video Player Overlay */
+        .video-overlay {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+        }
+        
+        /* Countdown Timer */
+        .countdown-digit {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #6366f1;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Background Mesh */
+        .mesh-bg {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.15) 0px, transparent 50%);
+        }
+        
+        /* Form Inputs */
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            outline: none;
+        }
+        
+        /* Button Shine Effect */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg) translateX(-100%);
+            transition: transform 0.6s;
+        }
+        .btn-shine:hover::after {
+            transform: rotate(30deg) translateX(100%);
+        }
+        
+        /* Tab Animation */
+        .tab-indicator {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Card Hover Glow */
+        .card-glow {
+            position: relative;
+        }
+        .card-glow::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        .card-glow:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="mesh-bg min-h-screen text-white overflow-x-hidden">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 glass-dark transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="router.navigate('home')">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center animate-pulse-glow">
+                        <i data-lucide="flask-conical" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">Dr.CHEMIS</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <button onclick="router.navigate('home')" class="nav-link text-gray-300 hover:text-white transition-colors">Home</button>
+                    <button onclick="router.navigate('courses')" class="nav-link text-gray-300 hover:text-white transition-colors">Courses</button>
+                    <button onclick="router.navigate('about')" class="nav-link text-gray-300 hover:text-white transition-colors">About</button>
+                </div>
+                
+                <div id="auth-buttons" class="flex items-center space-x-4">
+                    <button onclick="router.navigate('login')" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                        Sign In
+                    </button>
+                    <button onclick="router.navigate('register')" class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all btn-shine">
+                        Get Started
+                    </button>
+                </div>
+                
+                <div id="user-menu" class="hidden items-center space-x-4">
+                    <div class="flex items-center space-x-3 glass rounded-full px-4 py-2">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 flex items-center justify-center">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </div>
+                        <span id="user-name" class="text-sm font-medium"></span>
+                        <span id="user-role" class="text-xs px-2 py-1 rounded-full bg-indigo-500/20 text-indigo-300"></span>
+                    </div>
+                    <button onclick="app.logout()" class="p-2 rounded-lg hover:bg-white/10 transition-colors">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main id="app" class="pt-16 min-h-screen">
+        <!-- Views will be injected here -->
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <div class="glass-dark rounded-xl px-6 py-4 flex items-center space-x-3 border border-white/10">
+            <div id="toast-icon"></div>
+            <span id="toast-message" class="text-sm font-medium"></span>
+        </div>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="modal-content" class="glass-dark rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300"></div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Application State
+        const app = {
+            currentUser: null,
+            isAdmin: false,
+            videos: [],
+            users: [],
+            allowedEmails: [],
+            
+            init() {
+                this.loadData();
+                this.checkAuth();
+                router.navigate('home');
+                this.setupEventListeners();
+            },
+            
+            loadData() {
+                // Load from localStorage or initialize defaults
+                this.videos = JSON.parse(localStorage.getItem('drChemis_videos') || '[]');
+                this.users = JSON.parse(localStorage.getItem('drChemis_users') || '[]');
+                this.allowedEmails = JSON.parse(localStorage.getItem('drChemis_allowedEmails') || '["student@example.com"]');
+                
+                // Ensure admin exists
+                if (!this.users.find(u => u.email === 'admin@drchemis.com')) {
+                    this.users.push({
+                        id: 'admin-1',
+                        name: 'Sn K Nadishan',
+                        email: 'admin@drchemis.com',
+                        password: 'admin123',
+                        role: 'admin',
+                        createdAt: new Date().toISOString()
+                    });
+                    this.saveData();
+                }
+            },
+            
+            saveData() {
+                localStorage.setItem('drChemis_videos', JSON.stringify(this.videos));
+                localStorage.setItem('drChemis_users', JSON.stringify(this.users));
+                localStorage.setItem('drChemis_allowedEmails', JSON.stringify(this.allowedEmails));
+            },
+            
+            checkAuth() {
+                const user = JSON.parse(localStorage.getItem('drChemis_currentUser') || 'null');
+                if (user) {
+                    this.currentUser = user;
+                    this.isAdmin = user.role === 'admin';
+                    this.updateUI();
+                }
+            },
+            
+            updateUI() {
+                const authButtons = document.getElementById('auth-buttons');
+                const userMenu = document.getElementById('user-menu');
+                
+                if (this.currentUser) {
+                    authButtons.classList.add('hidden');
+                    userMenu.classList.remove('hidden');
+                    userMenu.classList.add('flex');
+                    document.getElementById('user-name').textContent = this.currentUser.name;
+                    document.getElementById('user-role').textContent = this.isAdmin ? 'Admin' : 'Student';
+                } else {
+                    authButtons.classList.remove('hidden');
+                    userMenu.classList.add('hidden');
+                    userMenu.classList.remove('flex');
+                }
+            },
+            
+            login(email, password) {
+                const user = this.users.find(u => u.email === email && u.password === password);
+                if (user) {
+                    this.currentUser = user;
+                    this.isAdmin = user.role === 'admin';
+                    localStorage.setItem('drChemis_currentUser', JSON.stringify(user));
+                    this.updateUI();
+                    this.showToast('Welcome back, ' + user.name + '!', 'success');
+                    router.navigate(this.isAdmin ? 'admin' : 'dashboard');
+                    return true;
+                }
+                this.showToast('Invalid credentials', 'error');
+                return false;
+            },
+            
+            register(name, email, password) {
+                if (this.users.find(u => u.email === email)) {
+                    this.showToast('Email already registered', 'error');
+                    return false;
+                }
+                
+                if (!this.allowedEmails.includes(email)) {
+                    this.showToast('Email not authorized. Contact admin.', 'error');
+                    return false;
+                }
+                
+                const newUser = {
+                    id: 'user-' + Date.now(),
+                    name,
+                    email,
+                    password,
+                    role: 'student',
+                    createdAt: new Date().toISOString()
+                };
+                
+                this.users.push(newUser);
+                this.saveData();
+                this.showToast('Registration successful! Please login.', 'success');
+                router.navigate('login');
+                return true;
+            },
+            
+            logout() {
+                this.currentUser = null;
+                this.isAdmin = false;
+                localStorage.removeItem('drChemis_currentUser');
+                this.updateUI();
+                router.navigate('home');
+                this.showToast('Logged out successfully', 'info');
+            },
+            
+            showToast(message, type = 'info') {
+                const toast = document.getElementById('toast');
+                const toastIcon = document.getElementById('toast-icon');
+                const toastMessage = document.getElementById('toast-message');
+                
+                const icons = {
+                    success: '<i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>',
+                    error: '<i data-lucide="x-circle" class="w-5 h-5 text-red-400"></i>',
+                    info: '<i data-lucide="info" class="w-5 h-5 text-blue-400"></i>'
+                };
+                
+                toastIcon.innerHTML = icons[type];
+                toastMessage.textContent = message;
+                lucide.createIcons();
+                
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                
+                setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 3000);
+            },
+            
+            setupEventListeners() {
+                // Navbar scroll effect
+                window.addEventListener('scroll', () => {
+                    const navbar = document.getElementById('navbar');
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('glass-dark');
+                        navbar.classList.remove('bg-transparent');
+                    } else {
+                        navbar.classList.remove('glass-dark');
+                        navbar.classList.add('bg-transparent');
+                    }
+                });
+            }
+        };
+
+        // Router
+        const router = {
+            routes: {
+                home: () => views.home(),
+                login: () => views.login(),
+                register: () => views.register(),
+                dashboard: () => views.dashboard(),
+                admin: () => views.admin(),
+                courses: () => views.courses(),
+                about: () => views.about(),
+                video: (id) => views.video(id)
+            },
+            
+            navigate(route, param = null) {
+                const app = document.getElementById('app');
+                app.innerHTML = '';
+                
+                if (this.routes[route]) {
+                    if ((route === 'dashboard' || route === 'admin') && !window.app.currentUser) {
+                        this.navigate('login');
+                        return;
+                    }
+                    if (route === 'admin' && !window.app.isAdmin) {
+                        this.navigate('dashboard');
+                        return;
+                    }
+                    this.routes[route](param);
+                } else {
+                    this.routes.home();
+                }
+                
+                window.scrollTo(0, 0);
+                lucide.createIcons();
+            }
+        };
+
+        // Views
+        const views = {
+            home() {
+                const app = document.getElementById('app');
+                app.innerHTML = `
+                    <div class="relative overflow-hidden">
+                        <!-- Hero Section -->
+                        <section class="relative min-h-screen flex items-center justify-center px-4">
+                            <!-- Animated Background Elements -->
+                            <div class="absolute inset-0 overflow-hidden">
+                                <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl animate-float"></div>
+                                <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-pink-500/10 rounded-full blur-3xl animate-rotate-slow"></div>
+                            </div>
+                            
+                            <div class="relative z-10 text-center max-w-5xl mx-auto">
+                                <div class="inline-flex items-center space-x-2 glass rounded-full px-4 py-2 mb-8 animate-slide-up">
+                                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                                    <span class="text-sm text-gray-300">New courses available</span>
+                                </div>
+                                
+                                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight animate-slide-up" style="animation-delay: 0.1s;">
+                                    Master Chemistry with <br>
+                                    <span class="gradient-text">Dr.CHEMIS</span>
+                                </h1>
+                                
+                                <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto animate-slide-up" style="animation-delay: 0.2s;">
+                                    Interactive video learning platform by Sn K Nadishan. 
+                                    Access premium chemistry courses with time-limited exclusive content.
+                                </p>
+                                
+                                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up" style="animation-delay: 0.3s;">
+                                    <button onclick="router.navigate('register')" class="px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all btn-shine text-lg font-semibold flex items-center space-x-2 group">
+                                        <span>Start Learning</span>
+                                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                                    </button>
+                                    <button onclick="router.navigate('courses')" class="px-8 py-4 rounded-xl glass hover:bg-white/10 transition-all text-lg font-semibold flex items-center space-x-2">
+                                        <i data-lucide="play-circle" class="w-5 h-5"></i>
+                                        <span>View Courses</span>
+                                    </button>
+                                </div>
+                                
+                                <!-- Stats -->
+                                <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto animate-slide-up" style="animation-delay: 0.4s;">
+                                    <div class="glass rounded-2xl p-6 hover-lift">
+                                        <div class="text-3xl font-bold gradient-text mb-2">50+</div>
+                                        <div class="text-gray-400">Video Lessons</div>
+                                    </div>
+                                    <div class="glass rounded-2xl p-6 hover-lift">
+                                        <div class="text-3xl font-bold gradient-text mb-2">1000+</div>
+                                        <div class="text-gray-400">Students</div>
+                                    </div>
+                                    <div class="glass rounded-2xl p-6 hover-lift">
+                                        <div class="text-3xl font-bold gradient-text mb-2">98%</div>
+                                        <div class="text-gray-400">Success Rate</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <!-- Features Section -->
+                        <section class="py-24 px-4">
+                            <div class="max-w-7xl mx-auto">
+                                <div class="text-center mb-16">
+                                    <h2 class="text-4xl font-bold mb-4">Why Choose <span class="gradient-text">Dr.CHEMIS</span>?</h2>
+                                    <p class="text-gray-400 max-w-2xl mx-auto">Experience a new way of learning chemistry with our cutting-edge platform</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                    ${[
+                                        { icon: 'shield-check', title: 'Secure Access', desc: 'Time-limited video access with email verification' },
+                                        { icon: 'clock', title: 'Flexible Learning', desc: 'Learn at your own pace within allocated time windows' },
+                                        { icon: 'award', title: 'Expert Content', desc: 'Curated by Sn K Nadishan, experienced chemistry educator' },
+                                        { icon: 'video', title: 'HD Quality', title: 'Crystal Clear Videos', desc: 'High-definition video streaming with smooth playback' },
+                                        { icon: 'users', title: 'Community', desc: 'Join thousands of students in their chemistry journey' },
+                                        { icon: 'trending-up', title: 'Track Progress', desc: 'Monitor your learning with built-in analytics' }
+                                    ].map((feature, i) => `
+                                        <div class="glass rounded-2xl p-8 card-glow hover-lift group" style="animation-delay: ${i * 0.1}s;">
+                                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                                <i data-lucide="${feature.icon}" class="w-7 h-7 text-indigo-400"></i>
+                                            </div>
+                                            <h3 class="text-xl font-semibold mb-3">${feature.title}</h3>
+                                            <p class="text-gray-400">${feature.desc}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                `;
+            },
+            
+            login() {
+                const app = document.getElementById('app');
+                app.innerHTML = `
+                    <div class="min-h-screen flex items-center justify-center px-4 py-12">
+                        <div class="w-full max-w-md">
+                            <div class="glass rounded-3xl p-8 md:p-10 animate-scale-in">
+                                <div class="text-center mb-8">
+                                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
+                                        <i data-lucide="log-in" class="w-8 h-8 text-white"></i>
+                                    </div>
+                                    <h2 class="text-3xl font-bold mb-2">Welcome Back</h2>
+                                    <p class="text-gray-400">Sign in to access your courses</p>
+                                </div>
+                                
+                                <form id="login-form" class="space-y-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                                        <div class="relative">
+                                            <i data-lucide="mail" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500"></i>
+                                            <input type="email" id="login-email" required 
+                                                class="input-field w-full pl-10 pr-4 py-3 rounded-xl text-white placeholder-gray-500"
+                                                placeholder="you@example.com">
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                                        <div class="relative">
+                                            <i data-lucide="lock" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500"></i>
+                                            <input type="password" id="login-password" required 
+                                                class="input-field w-full pl-10 pr-4 py-3 rounded-xl text-white placeholder-gray-500"
+                                                placeholder="••••••••">
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all btn-shine font-semibold flex items-center justify-center space-x-2">
+                                        <span>Sign In</span>
+                                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                                    </button>
+                                </form>
+                                
+                                <div class="mt-6 text-center">
+                                    <p class="text-gray-400 text-sm">
+                                        Don't have an account? 
+                                        <button onclick="router.navigate('register')" class="text-indigo-400 hover:text-indigo-300 font-medium">Sign up</button>
+                                    </p>
+                                </div>
+                                
+                                <div class="mt-8 p-4 rounded-xl bg-white/5 border border-white/10">
+                                    <p class="text-xs text-gray-500 text-center mb-2">Demo Credentials</p>
+                                    <div class="flex justify-center space-x-4 text-xs text-gray-400">
+                                        <span>Admin: admin@drchemis.com / admin123</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('login-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+                    app.login(email, password);
+                });
+            },
+            
+            register() {
+                const app = document.getElementById('app');
+                app.innerHTML = `
+                    <div class="min-h-screen flex items-center justify-center px-4 py-12">
+                        <div class="w-full max-w-md">
+                            <div class="glass rounded-3xl p-8 md:p-10 animate-scale-in">
+                                <div class="text-center mb-8">
+                                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
+                                        <i data-lucide="user-plus" class="w-8 h-8 text-white"></i>
+                                    </div>
+                                    <h2 class="text-3xl font-bold mb-2">Create Account</h2>
+                                    <p class="text-gray-400">Join Dr.CHEMIS learning community</p>
+                                </div>
+                                
+                                <form id="register-form" class="space-y-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                                        <div class="relative">
+                                            <i data-lucide="user" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500"></i>
+                                            <input type="text" id="reg-name" required 
+                                                class="input-field w-full pl-10 pr-4 py-3 rounded-xl text-white placeholder-gray-500"
+                                                placeholder="John Doe">
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                                        <div class="relative">
+                                            <i data-lucide="mail" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500"></i>
+                                            <input type="email" id="reg-email" required 
+                                                class="input-field w-full pl-10 pr-4 py-3 rounded-xl text-white placeholder-gray-500"
+                                                placeholder="you@example.com">
+                                        </div>
+                                        <p class="mt-1 text-xs text-gray-500">Must be pre-approved by admin</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                                        <div class="relative">
+                                            <i data-lucide="lock" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500"></i>
+                                            <input type="password" id="reg-password" required 
+                                                class="input-field w-full pl-10 pr-4 py-3 rounded-xl text-white placeholder-gray-500"
+                                                placeholder="••••••••">
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all btn-shine font-semibold flex items-center justify-center space-x-2">
+                                        <span>Create Account</span>
+                                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                                    </button>
+                                </form>
+                                
+                                <div class="mt-6 text-center">
+                                    <p class="text-gray-400 text-sm">
+                                        Already have an account? 
+                                        <button onclick="router.navigate('login')" class="text-indigo-400 hover:text-indigo-300 font-medium">Sign in</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('register-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('reg-name').value;
+                    const email = document.getElementById('reg-email').value;
+                    const password = document.getElementById('reg-password').value;
+                    app.register(name, email, password);
+                });
+            },
+            
+            dashboard() {
+                const now = new Date();
+                const availableVideos = app.videos.filter(v => {
+                    const start = new Date(v.startDate);
+                    const end = new Date(v.endDate);
+                    return now >= start && now <= end;
+                });
+                
+                const app = document.getElementById('app');
+                app.innerHTML = `
+                    <div class="min-h-screen p-4 md:p-8">
+                        <div class="max-w-7xl mx-auto">
+                            <!-- Header -->
+                            <div class="mb-8 animate-slide-up">
+                                <h1 class="text-4xl font-bold mb-2">My Learning Dashboard</h1>
+                                <p class="text-gray-400">Welcome back, ${app.currentUser.name}</p>
+                            </div>
+                            
+                            <!-- Stats Cards -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 animate-slide-up" style="animation-delay: 0.1s;">
+                                <div class="glass rounded-2xl p-6 hover-lift">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center">
+                                            <i data-lucide="play-circle" class="w-6 h-6 text-indigo-400"></i>
+                                        </div>
+                                        <span class="text-2xl font-bold">${availableVideos.length}</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">Available Now</p>
+                                </div>
+                                
+                                <div class="glass rounded-2xl p-6 hover-lift">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
+                                            <i data-lucide="clock" class="w-6 h-6 text-purple-400"></i>
+                                        </div>
+                                        <span class="text-2xl font-bold">${app.videos.filter(v => new Date(v.startDate) > now).length}</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">Coming Soon</p>
+                                </div>
+                                
+                                <div class="glass rounded-2xl p-6 hover-lift">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+                                            <i data-lucide="check-circle" class="w-6 h-6 text-green-400"></i>
+                                        </div>
+                                        <span class="text-2xl font-bold">0</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">Completed</p>
+                                </div>
+                                
+                                <div class="glass rounded-2xl p-6 hover-lift">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <div class="w-12 h-12 rounded-xl bg-pink-500/20 flex items-center justify-center">
+                                            <i data-lucide="trending-up" class="w-6 h-6 text-pink-400"></i>
+                                        </div>
+                                        <span class="text-2xl font-bold">85%</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm">Progress</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Available Videos -->
+                            <div class="animate-slide-up" style="animation-delay: 0.2s;">
+                                <h2 class="text-2xl font-bold mb-6 flex items-center space-x-2">
+                                    <i data-lucide="video" class="w-6 h-6 text-indigo-400"></i>
+                                    <span>Available Courses</span>
+                                </h2>
+                                
+                                ${availableVideos.length === 0 ? `
+                                    <div class="glass rounded-2xl p-12 text-center">
+                                        <div class="w-20 h-20 rounded-full bg-gray-800 flex items-center justify-center mx-auto mb-4">
+                                            <i data-lucide="video-off" class="w-10 h-10 text-gray-600"></i>
+                                        </div>
+                                        <h3 class="text-xl font-semibold mb-2">No videos available</h3>
+                                        <p class="text-gray-400">Check back later for new content</p>
+                                    </div>
+                                ` : `
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        ${availableVideos.map((video, index) => {
+                                            const endDate = new Date(video.endDate);
+                                            const timeLeft = endDate - now;
+                                            const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+                                            
+                                            return `
+                                                <div class="glass rounded-2xl overflow-hidden card-glow hover-lift group cursor-pointer" onclick="router.navigate('video', '${video.id}')">
+                                                    <div class="relative aspect-video bg-gray-800 overflow-hidden">
+                                                        <div class="absolute inset-0 flex items-center justify-center">
+                                                            <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                                                                <i data-lucide="play" class="w-8 h-8 text-white ml-1"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-red-500/80 text-xs font-semibold">
+                                                            ${daysLeft} days left
+                                                        </div>
+                                                        <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+                                                    </div>
+                                                    <div class="p-6">
+                                                        <h3 class="text-lg font-semibold mb-2 line-clamp-2">${video.title}</h3>
+                                                        <p class="text-gray-400 text-sm mb-4 line-clamp-2">${video.description}</p>
+                                                        <div class="flex items-center justify-between text-sm text-gray-500">
+                                                            <span class="flex items-center space-x-1">
+                                                                <i data-lucide="clock" class="w-4 h-4"></i>
+                                                                <span>${video.duration || '45 min'}</span>
+                                                            </span>
+                                                            <span class="flex items-center space-x-1">
+                                                                <i data-lucide="eye" class="w-4 h-4"></i>
+                                                                <span>${video.views || 0} views</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                `}
+                            </div>
+                            
+                            <!-- Expired Videos -->
+                            ${app.videos.filter(v => new Date(v.endDate) < now).length > 0 ? `
+                                <div class="mt-12 animate-slide-up" style="animation-delay: 0.3s;">
+                                    <h2 class="text-2xl font-bold mb-6 flex items-center space-x-2 text-gray-500">
+                                        <i data-lucide="archive" class="w-6 h-6"></i>
+                                        <span>Expired Content</span>
+                                    </h2>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-50">
+                                        ${app.videos.filter(v => new Date(v.endDate) < now).map(video => `
+                                            <div class="glass rounded-2xl overflow-hidden">
+                                                <div class="relative aspect-video bg-gray-800 flex items-center justify-center">
+                                                    <i data-lucide="lock" class="w-12 h-12 text-gray-600"></i>
+                                                    <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-gray-700 text-xs">
+                                                        Expired
+                                                    </div>
+                                                </div>
+                                                <div class="p-6">
+                                                    <h3 class="text-lg font-semibold mb-2">${video.title}</h3>
+                                                    <p class="text-gray-500 text-sm">Access period ended</p>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            },
+            
+            admin() {
+                const app = document.getElementById('app');
+                app.innerHTML = `
+                    <div class="min-h-screen p-4 md:p-8">
+                        <div class="max-w-7xl mx-auto">
+                            <!-- Header -->
+                            <div class="mb-8 animate-slide-up">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h1 class="text-4xl font-bold mb-2">Admin Panel</h1>
+                                        <p class="text-gray-400">Manage content and students</p>
+                                    </div>
+                                    <div class="glass rounded-full px-4 py-2 flex items-center space-x-2">
+                                        <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                                        <span class="text-sm text-gray-300">Admin Mode</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Tabs -->
+                            <div class="mb-8 animate-slide-up" style="animation-delay: 0.1s;">
+                                <div class="glass rounded-xl p-1 inline-flex space-x-1">
+                                    <button onclick="switchAdminTab('videos')" id="tab-videos" class="admin-tab px-6 py-2 rounded-lg text-sm font-medium transition-all bg-indigo-600 text-white">
+                                        Videos
+                                    </button>
+                                    <button onclick="switchAdminTab('emails')" id="tab-emails" class="admin-tab px-6 py-2 rounded-lg text-sm font-medium transition-all text-gray-400 hover:text-white">
+                                        Allowed Emails
+                                    </button>
+                                    <button onclick="switchAdminTab('analytics')" id="tab-analytics" class="admin-tab px-6 py-2 rounded-lg text-sm font-medium transition-all text-gray-400 hover:text-white">
+                                        Analytics
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Videos Tab -->
+                            <div id="admin-videos" class="admin-content animate-slide-up" style="animation-delay: 0.2s;">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h2 class="text-2xl font-bold">Video Management</h2>
+                                    <button onclick="openUploadModal()" class="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all btn-shine flex items-center space-x-2">
+                                        <i data-lucide="plus" class="w-5 h-5"></i>
+                                        <span>Upload Video</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="glass rounded-2xl overflow-hidden">
+                                    <table class="w-full">
+                                        <thead class="bg-white/5">
+                                            <tr>
+                                                <th class="text-left px-6 py-4 text-sm font-medium text-gray-400">Video</th>
+                                                <th class="text-left px-6 py-4 text-sm font-medium text-gray-400">Access Period</th>
+                                                <th class="text-left px-6 py-4 text-sm font-medium text-gray-400">Status</th>
+                                                <th class="text-left px-6 py-4 text-sm font-medium text-gray-400">Views</th>
+                                                <th class="text-left px-6 py-4 text-sm font-medium text-gray-400">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-white/5">
+                                            ${app.videos.length === 0 ? `
+                                                <tr>
+                                                    <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                                                        No videos uploaded yet
+                                                    </td>
+                                                </tr>
+                                            ` : app.videos.map(video => {
+                                                const now = new Date();
+                                                const start = new Date(video.startDate);
+                                                const end = new Date(video.endDate);
+                                                let status = 'upcoming';
+                                                if (now >= start && now <= end) status = 'active';
+                                                if (now > end) status = 'expired';
+                                                
+                                                const statusColors = {
+                                                    active: 'bg-green-500/20 text-green-400',
+                                                    upcoming: 'bg-yellow-500/20 text-yellow-400',
+                                                    expired: 'bg-gray-500/20 text-gray-400'
+                                                };
+                                                
+                                                return `
+                                                    <tr class="hover:bg-white/5 transition-colors">
+                                                        <td class="px-6 py-4">
+                                                            <div class="flex items-center space-x-3">
+                                                                <div class="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center">
+                                                                    <i data-lucide="video" class="w-5 h-5 text-gray-400"></i>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="font-medium">${video.title}</div>
+                                                                    <div class="text-sm text-gray-500">${video.description.substring(0, 50)}...</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 text-sm text-gray-400">
+                                                            ${new Date(video.startDate).toLocaleDateString()} - ${new Date(video.endDate).toLocaleDateString()}
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            <span class="px-3 py-1 rounded-full text-xs font-medium ${statusColors[status]} capitalize">
+                                                                ${status}
+                                                            </span>
+                                                        </td>
+                                                        <td class="px-6 py-4 text-sm text-gray-400">
+                                                            ${video.views || 0}
+                                                        </td>
+                                                        <td class="px-6 py-4">
+                                                            <div class="flex items-center space-x-2">
+                                                                <button onclick="editVideo('${video.id}')" class="p-2 rounded-lg hover:bg-white/10 text-blue-400">
+                                                                    <i data-lucide="edit" class="w-4 h-4"></i>
+                                                                </button>
+                                                                <button onclick="deleteVideo('${video.id}')" class="p-2 rounded-lg hover:bg-white/10 text-red-400">
+                                                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                `;
+                                            }).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- Emails Tab -->
+                            <div id="admin-emails" class="admin-content hidden animate-slide-up">
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                    <div>
+                                        <h2 class="text-2xl font-bold mb-6">Allowed Email Addresses</h2>
+                                        <div class="glass rounded-2xl p-6">
+                                            <form id="add-email-form" class="mb-6">
+                                                <div class="flex space-x-2">
+                                                    <input type="email" id="new-email" required 
+                                                        class="input-field flex-1 px-4 py-2 rounded-lg text-white placeholder-gray-500"
+                                                        placeholder="student@example.com">
+                                                    <button type="submit" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 transition-colors">
+                                                        <i data-lucide="plus" class="w-5 h-5"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            
+                                            <div class="space-y-2 max-h-96 overflow-y-auto">
+                                                ${app.allowedEmails.map((email, index) => `
+                                                    <div class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                                                        <span class="text-sm">${email}</span>
+                                                        <button onclick="removeEmail(${index})" class="p-1 rounded hover:bg-red-500/20 text-red-400">
+                                                            <i data-lucide="x" class="w-4 h-4"></i>
+                                                        </button>
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <h2 class="text-2xl font-bold mb-6">Registered Students</h2>
+                                        <div class="glass rounded-2xl overflow-hidden">
+                                            <table class="w-full">
+                                                <thead class="bg-white/5">
+                                                    <tr>
+                                                        <th class="text-left px-4 py-3 text-sm font-medium text-gray-400">Name</th>
+                                                        <th class="text-left px-4 py-3 text-sm font-medium text-gray-400">Email</th>
+                                                        <th class="text-left px-4 py-3 text-sm font-medium text-gray-400">Joined</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="divide-y divide-white/5">
+                                                    ${app.users.filter(u => u.role === 'student').map(user => `
+                                                        <tr class="hover:bg-white/5">
+                                                            <td class="px-4 py-3 text-sm">${user.name}</td>
+                                                            <td class="px-4 py-3 text-sm text-gray-400">${user.email}</td>
+                                                            <td class="px-4 py-3 text-sm text-gray-500">${new Date(user.createdAt).toLocaleDateString()}</td>
+                                                        </tr>
+                                                    `).join('')}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Analytics Tab -->
+                            <div id="admin-analytics" class="admin-content hidden animate-slide-up">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                    <div class="glass rounded-2xl p-6">
+                                        <div class="text-3xl font-bold gradient-text mb-2">${app.users.filter(u => u.role === 'student').length}</div>
+                                        <div class="text-gray-400">Total Students</div>
+                                    </div>
+                                    <div class="glass rounded-2xl p-6">
+                                        <div class="text-3xl font-bold gradient-text mb-2">${app.videos.length}</div>
+                                        <div class="text-gray-400">Total Videos</div>
+                                    </div>
+                                    <div class="glass rounded-2xl p-6">
+                                        <div class="text-3xl font-bold gradient-text mb-2">${app.videos.reduce((acc, v) => acc + (v.views || 0), 0)}</div>
+                                        <div class="text-gray-400">Total Views</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="glass rounded-2xl p-6">
+                                    <h3 class="text-xl font-bold mb-4">Recent Activity</h3>
+                                    <div class="space-y-4">
+                                        ${app.videos.slice(-5).reverse().map(video => `
+                                            <div class="flex items-center justify-between p-4 rounded-lg bg-white/5">
+                                                <div class="flex items-center space-x-3">
+                                                    <i data-lucide="video" class="w-5 h-5 text-indigo-400"></i>
+                                                    <span>${video.title}</span>
+                                                </div>
+                                                <span class="text-sm text-gray-500">${video.views || 0} views</span>
+                                            </div>
+                                        `).join('') || '<p class="text-gray-500 text-center py-8">No activity yet</p>'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Setup admin functions
+                window.switchAdminTab = (tab) => {
+                    document.querySelectorAll('.admin-tab').forEach(t => {
+                        t.classList.remove('bg-indigo-600', 'text-white');
+                        t.classList.add('text-gray-400');
+                    });
+                    document.getElementById(`tab-${tab}`).classList.remove('text-gray-400');
+                    document.getElementById(`tab-${tab}`).classList.add('bg-indigo-600', 'text-white');
+                    
+                    document.querySelectorAll('.admin-content').forEach(c => c.classList.add('hidden'));
+                    document.getElementById(`admin-${tab}`).classList.remove('hidden');
+                };
+                
+                window.openUploadModal = () => {
+                    const modal = document.getElementById('modal-overlay');
+                    const content = document.getElementById('modal-content');
+                    
+                    content.innerHTML = `
+                        <div class="p-6 md:p-8">
+                            <div class="flex justify-between items-center mb-6">
+                                <h2 class="text-2xl font-bold">Upload New Video</h2>
+                                <button onclick="closeModal()" class="p-2 rounded-lg hover:bg-white/10">
+                                    <i data-lucide="x" class="w-6 h-6"></i>
+                                </button>
+                            </div>
+                            
+                            <form id="upload-form" class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Video Title</label>
+                                    <input type="text" id="video-title" required 
+                                        class="input-field w-full px-4 py-3 rounded-xl text-white"
+                                        placeholder="Enter video title">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                                    <textarea id="video-desc" rows="3" required
+                                        class="input-field w-full px-4 py-3 rounded-xl text-white resize-none"
+                                        placeholder="Enter video description"></textarea>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-2">Start Date</label>
+                                        <input type="datetime-local" id="video-start" required 
+                                            class="input-field w-full px-4 py-3 rounded-xl text-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-300 mb-2">End Date</label>
+                                        <input type="datetime-local" id="video-end" required 
+                                            class="input-field w-full px-4 py-3 rounded-xl text-white">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Video File</label>
+                                    <div class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-indigo-500/50 transition-colors cursor-pointer" onclick="document.getElementById('video-file').click()">
+                                        <i data-lucide="upload-cloud" class="w-12 h-12 text-gray-500 mx-auto mb-2"></i>
+                                        <p class="text-gray-400">Click to upload or drag and drop</p>
+                                        <p class="text-sm text-gray-600 mt-1">MP4, WebM up to 500MB</p>
+                                        <input type="file" id="video-file" accept="video/*" class="hidden" required>
+                                    </div>
+                                    <div id="file-name" class="mt-2 text-sm text-indigo-400"></div>
+                                </div>
+                                
+                                <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all btn-shine font-semibold">
+                                    Upload Video
+                                </button>
+                            </form>
+                        </div>
+                    `;
+                    
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        content.classList.remove('scale-95');
+                    }, 10);
+                    
+                    document.getElementById('video-file').addEventListener('change', (e) => {
+                        if (e.target.files[0]) {
+                            document.getElementById('file-name').textContent = e.target.files[0].name;
+                        }
+                    });
+                    
+                    document.getElementById('upload-form').addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        
+                        const newVideo = {
+                            id: 'video-' + Date.now(),
+                            title: document.getElementById('video-title').value,
+                            description: document.getElementById('video-desc').value,
+                            startDate: document.getElementById('video-start').value,
+                            endDate: document.getElementById('video-end').value,
+                            fileName: document.getElementById('file-name').textContent || 'video.mp4',
+                            views: 0,
+                            uploadedAt: new Date().toISOString()
+                        };
+                        
+                        app.videos.push(newVideo);
+                        app.saveData();
+                        closeModal();
+                        app.showToast('Video uploaded successfully!', 'success');
+                        router.navigate('admin');
+                    });
+                    
+                    lucide.createIcons();
+                };
+                
+                window.closeModal = () => {
+                    const modal = document.getElementById('modal-overlay');
+                    const content = document.getElementById('modal-content');
+                    modal.classList.add('opacity-0');
+                    content.classList.add('scale-95');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                    }, 300);
+                };
+                
+                window.deleteVideo = (id) => {
+                    if (confirm('Are you sure you want to delete this video?')) {
+                        app.videos = app.videos.filter(v => v.id !== id);
+                        app.saveData();
+                        router.navigate('admin');
+                        app.showToast('Video deleted', 'info');
+                    }
+                };
+                
+                window.editVideo = (id) => {
+                    const video = app.videos.find(v => v.id === id);
+                    // Similar to upload modal but with pre-filled values
+                    app.showToast('Edit feature - implement as needed', 'info');
+                };
+                
+                document.getElementById('add-email-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('new-email').value;
+                    if (!app.allowedEmails.includes(email)) {
+                        app.allowedEmails.push(email);
+                        app.saveData();
+                        router.navigate('admin');
+                        app.showToast('Email added to whitelist', 'success');
+                    } else {
+                        app.showToast('Email already exists', 'error');
+                    }
+                });
+                
+                window.removeEmail = (index) => {
+                    app.allowedEmails.splice(index, 1);
+                    app.saveData();
+                    router.navigate('admin');
+                    app.showToast('Email removed', 'info');
+                };
+            },
+            
+            video(id) {
+                const video = app.videos.find(v => v.id === id);
+                if (!video) {
+                    router.navigate('dashboard');
+                    return;
+                }
+                
+                // Increment views
+                video.views = (video.views || 0) + 1;
+                app.saveData();
+                
+                const now = new Date();
+                const end = new Date(video.endDate);
+                const timeLeft = end - now;
+                
+                const app = document.getElementById('app');
+                app.innerHTML = `
+                    <div class="min-h-screen p-4 md:p-8">
+                        <div class="max-w-6xl mx-auto">
+                            <button onclick="router.navigate('dashboard')" class="mb-6 flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
+                                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                                <span>Back to Dashboard</span>
+                            </button>
+                            
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                <!-- Video Player -->
+                                <div class="lg:col-span-2 space-y-6">
+                                    <div class="glass rounded-2xl overflow-hidden video-overlay">
+                                        <div class="aspect-video bg-black relative group">
+                                            <video class="w-full h-full" controls poster="">
+                                                <source src="#" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                            <div class="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                                <div class="text-center">
+                                                    <i data-lucide="lock" class="w-16 h-16 text-white/50 mx-auto mb-2"></i>
+                                                    <p class="text-white/70">Secure Stream</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="glass rounded-2xl p-6 animate-slide-up">
+                                        <h1 class="text-2xl font-bold mb-4">${video.title}</h1>
+                                        <p class="text-gray-400 leading-relaxed">${video.description}</p>
+                                        
+                                        <div class="mt-6 flex items-center space-x-6 text-sm text-gray-500">
+                                            <span class="flex items-center space-x-2">
+                                                <i data-lucide="calendar" class="w-4 h-4"></i>
+                                                <span>Uploaded ${new Date(video.uploadedAt).toLocaleDateString()}</span>
+                                            </span>
+                                            <span class="flex items-center space-x-2">
+                                                <i data-lucide="eye" class="w-4 h-4"></i>
+                                                <span>${video.views} views</span>
+                                            </span>
+                                            <span class="flex items-center space-x-2">
+                                                <i data-lucide="clock" class="w-4 h-4"></i>
+                                                <span>Duration: ${video.duration || '45:00'}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Sidebar -->
+                                <div class="space-y-6">
+                                    <!-- Countdown Timer -->
+                                    <div class="glass rounded-2xl p-6 animate-slide-up" style="animation-delay: 0.1s;">
+                                        <h3 class="text-lg font-semibold mb-4 flex items-center space-x-2">
+                                            <i data-lucide="timer" class="w-5 h-5 text-red-400"></i>
+                                            <span>Time Remaining</span>
+                                        </h3>
+                                        <div class="grid grid-cols-4 gap-2 text-center" id="countdown">
+                                            <div class="bg-white/5 rounded-lg p-3">
+                                                <div class="text-2xl font-bold countdown-digit" id="days">00</div>
+                                                <div class="text-xs text-gray-500 mt-1">Days</div>
+                                            </div>
+                                            <div class="bg-white/5 rounded-lg p-3">
+                                                <div class="text-2xl font-bold countdown-digit" id="hours">00</div>
+                                                <div class="text-xs text-gray-500 mt-1">Hours</div>
+                                            </div>
+                                            <div class="bg-white/5 rounded-lg p-3">
+                                                <div class="text-2xl font-bold countdown-digit" id="minutes">00</div>
+                                                <div class="text-xs text-gray-500 mt-1">Mins</div>
+                                            </div>
+                                            <div class="bg-white/5 rounded-lg p-3">
+                                                <div class="text-2xl font-bold countdown-digit" id="seconds">00</div>
+                                                <div class="text-xs text-gray-500 mt-1">Secs</div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 text-sm text-gray-500 text-center">
+                                            Available until ${new Date(video.endDate).toLocaleString()}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Progress -->
+                                    <div class="glass rounded-2xl p-6 animate-slide-up" style="animation-delay: 0.2s;">
+                                        <h3 class="text-lg font-semibold mb-4">Your Progress</h3>
+                                        <div class="w-full bg-gray-700 rounded-full h-2 mb-2">
+                                            <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-sm text-gray-500">0% completed</p>
+                                    </div>
+                                    
+                                    <!-- Notes -->
+                                    <div class="glass rounded-2xl p-6 animate-slide-up" style="animation-delay: 0.3s;">
+                                        <h3 class="text-lg font-semibold mb-4 flex items-center space-x-2">
+                                            <i data-lucide="sticky-note" class="w-5 h-5 text-yellow-400"></i>
+                                            <span>Quick Notes</span>
+                                        </h3>
+                                        <textarea class="input-field w-full px-4 py-3 rounded-xl text-white resize-none h-32 text-sm" placeholder="Take notes while watching..."></textarea>
+                                        <button class="mt-3 w-full py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors text-sm font-medium">
+                                            Save Notes
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Countdown Timer
+                const updateCountdown = () => {
+                    const now = new Date();
+                    const end = new Date(video.endDate);
+                    const diff = end - now;
+                    
+                    if (diff <= 0) {
+                        router.navigate('dashboard');
+                        app.showToast('Video access expired', 'error');
+                        return;
+                    }
+                    
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                    
+                    document.getElementById('days').textContent = String(days).padStart(2, '0');
+                    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+                };
+                
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            },
+            
+            courses() {
+                const app = document.getElementById('app');
+                app.innerHTML = `
+                    <div class="min-h-screen p-4 md:p-8 pt-24">
+                        <div class="max-w-7xl mx-auto text-center">
+                            <h1 class="text-4xl md:text-5xl font-bold mb-6">Our <span class="gradient-text">Courses</span></h1>
+                            <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">Comprehensive chemistry curriculum designed for academic excellence</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                ${[
+                                    { title: 'Organic Chemistry', icon: 'hexagon', color: 'from-green-400 to-emerald-600', desc: 'Master the fundamentals of carbon compounds and reactions' },
+                                    { title: 'Inorganic Chemistry', icon: 'atom', color: 'from-blue-400 to-indigo-600', desc: 'Explore elements, compounds and their properties' },
+                                    { title: 'Physical Chemistry', icon: 'gauge', color: 'from-purple-400 to-pink-600', desc: 'Understand thermodynamics, kinetics and quantum mechanics' },
+                                    { title: 'Analytical Chemistry', icon: 'search', color: 'from-orange-400 to-red-600', desc: 'Learn techniques for chemical analysis and instrumentation' },
+                                    { title: 'Biochemistry', icon: 'dna', color: 'from-cyan-400 to-blue-600', desc: 'Chemistry of living organisms and biological processes' },
+                                    { title: 'Environmental Chemistry', icon: 'leaf', color: 'from-green-400 to-teal-600', desc: 'Study chemical processes in the environment' }
+                                ].map((course, i) => `
+                                    <div class="glass rounded-2xl p-8 hover-lift card-glow group cursor-pointer" style="animation-delay: ${i * 0.1}s;">
+                                        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br ${course.color} flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                                            <i data-lucide="${course.icon}" class="w-10 h-10 text-white"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold mb-3">${course.title}</h3>
+                                        <p class="text-gray-400 mb-6">${course.desc}</p>
+                                        <button onclick="router.navigate('register')" class="text-indigo-400 font-medium flex items-center justify-center space-x-1 mx-auto group-hover:text-indigo-300">
+                                            <span>Learn More</span>
+                                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+            
+            about() {
+                const app = document.getElementById('app');
+                app.innerHTML = `
+                    <div class="min-h-screen p-4 md:p-8 pt-24">
+                        <div class="max-w-4xl mx-auto">
+                            <div class="text-center mb-16">
+                                <h1 class="text-4xl md:text-5xl font-bold mb-6">About <span class="gradient-text">Dr.CHEMIS</span></h1>
+                                <p class="text-xl text-gray-400">Empowering students through innovative chemistry education</p>
+                            </div>
+                            
+                            <div class="glass rounded-3xl p-8 md:p-12 mb-12 animate-slide-up">
+                                <div class="flex flex-col md:flex-row items-center gap-8">
+                                    <div class="w-48 h-48 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center flex-shrink-0 animate-pulse-glow">
+                                        <i data-lucide="user" class="w-24 h-24 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-3xl font-bold mb-4">Sn K Nadishan</h2>
+                                        <p class="text-indigo-400 mb-4 text-lg">Founder & Lead Educator</p>
+                                        <p class="text-gray-400 leading-relaxed mb-6">
+                                            With over 15 years of experience in chemistry education, Sn K Nadishan has helped thousands of students 
+                                            achieve academic excellence. Dr.CHEMIS represents the culmination of his vision to make quality chemistry 
+                                            education accessible to all students through modern technology.
+                                        </p>
+                                        <div class="flex space-x-4">
+                                            <div class="text-center">
+                                                <div class="text-2xl font-bold gradient-text">15+</div>
+                                                <div class="text-sm text-gray-500">Years Experience</div>
+                                            </div>
+                                            <div class="text-center">
+                                                <div class="text-2xl font-bold gradient-text">1000+</div>
+                                                <div class="text-sm text-gray-500">Students</div>
+                                            </div>
+                                            <div class="text-center">
+                                                <div class="text-2xl font-bold gradient-text">98%</div>
+                                                <div class="text-sm text-gray-500">Success Rate</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="glass rounded-2xl p-8 hover-lift">
+                                    <div class="w-14 h-14 rounded-xl bg-indigo-500/20 flex items-center justify-center mb-6">
+                                        <i data-lucide="target" class="w-7 h-7 text-indigo-400"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-3">Our Mission</h3>
+                                    <p class="text-gray-400">To provide accessible, high-quality chemistry education that inspires curiosity and fosters academic excellence in every student.</p>
+                                </div>
+                                
+                                <div class="glass rounded-2xl p-8 hover-lift">
+                                    <div class="w-14 h-14 rounded-xl bg-purple-500/20 flex items-center justify-center mb-6">
+                                        <i data-lucide="eye" class="w-7 h-7 text-purple-400"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-3">Our Vision</h3>
+                                    <p class="text-gray-400">To become the leading online chemistry education platform, revolutionizing how students learn and interact with chemical sciences.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        };
+
+        // Initialize App
+        window.app = app;
+        window.router = router;
+        app.init();
+    </script>
+</body>
+</html>
